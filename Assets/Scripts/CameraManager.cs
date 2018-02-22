@@ -29,7 +29,7 @@ public class CameraManager : MonoBehaviour
 		{
 			while(Camera.main.WorldToScreenPoint (target.transform.position).x  > Screen.width * 0.3f)
 			{
-				transform.position += Vector3.right * (target.horiMoveSpeed + initialMoveSpeed) * Time.deltaTime;	
+				transform.position += Vector3.right * (target.horiMoveSpeed + initialMoveSpeed) * Time.smoothDeltaTime;	
 				yield return null;
 			}
 

@@ -6,17 +6,29 @@ public class PlayerController : MonoBehaviour
 {
 	public float vertMoveSpeed = 5.0f;
 	public float horiMoveSpeed = 5.0f;
+	public Animator animator;
 
-	private bool moveForward = false;
+	private static readonly int ANIM_TRIGGER = Animator.StringToHash("UpDown");
+	private bool move = false;
+	private float curVertMoveSpeed = 0f;
 
 	public void StartForwardMovement()
 	{
-		moveForward = true;
+		move = true;
+		animator.SetTrigger (ANIM_TRIGGER);
+	}
+
+	public void StartVerticalMovement()
+	{
+		curVertMoveSpeed = vertMoveSpeed;
+		animator.SetTrigger (ANIM_TRIGGER);
 	}
 		
 	void Update () 
 	{
-		float x = moveForward ? horiMoveSpeed : 0f;
-		transform.position += new Vector3 (x, Input.GetAxis ("Vertical") * vertMoveSpeed) * Time.deltaTime;
+		if (move) 
+		{
+			transform.position += new Vector3 (horiMoveSpeed, Input.GetAxis ("Vertical") * curVertMoveSpeed) * Time.deltaTime;
+		}
 	}
 }

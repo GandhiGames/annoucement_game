@@ -6,16 +6,30 @@ public class NPC : MonoBehaviour
 {
 	public TrailRenderer trail;
 	public float forwardMoveSpeed = 5f;
+	public Animator animator;
+
+	private static readonly int ANIM_TRIGGER = Animator.StringToHash("UpDown");
+	private bool moving = false;
 
 	// Use this for initialization
 	void Start () 
 	{
-		//trail.enabled = false;
+		trail.enabled = false;
+	}
+
+	public void StartMovement()
+	{
+		moving = true;
+		animator.SetTrigger (ANIM_TRIGGER);
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
-		transform.position += new Vector3 (forwardMoveSpeed, 0f) * Time.deltaTime;
+		if (moving) 
+		{
+			transform.position += new Vector3 (forwardMoveSpeed, 0f) * Time.deltaTime;
+		}
 	}
+		
 }

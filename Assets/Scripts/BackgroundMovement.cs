@@ -18,7 +18,7 @@ public class BackgroundMovement : MonoBehaviour
 	{
 		if (shouldMove) 
 		{
-			transform.position -= Vector3.left * moveSpeed * Time.deltaTime;
+			transform.position += Vector3.left * moveSpeed * Time.deltaTime;
 		}
 	}
 }
