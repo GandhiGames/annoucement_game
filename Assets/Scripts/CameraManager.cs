@@ -12,10 +12,14 @@ public class CameraManager : MonoBehaviour
 
 	private bool shouldFollow = false;
 
-
-	public void MoveToInitialStart()
+	void Start()
 	{
-		StartCoroutine (_MoveToInitialStart ());
+		shouldFollow = true;
+	}
+
+	public void MoveToInitialStart(float secEndDelay = 0f)
+	{
+		StartCoroutine (_MoveToInitialStart (secEndDelay));
 	}
 
 	public void StartFollow()
@@ -23,7 +27,7 @@ public class CameraManager : MonoBehaviour
 		shouldFollow = true;
 	}
 
-	private IEnumerator _MoveToInitialStart()
+	private IEnumerator _MoveToInitialStart(float secEndDelay)
 	{
 		if (target) 
 		{
@@ -34,6 +38,11 @@ public class CameraManager : MonoBehaviour
 			}
 
 			StartFollow ();
+
+			if (secEndDelay > 0f) 
+			{
+				yield return new WaitForSeconds (secEndDelay);
+			}
 
 			if (onInitialMoveFinished != null) 
 			{

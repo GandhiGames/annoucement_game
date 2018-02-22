@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
 	public Animator animator;
 
 	private static readonly int ANIM_TRIGGER = Animator.StringToHash("UpDown");
-	private bool move = false;
+	private bool moveForward = false;
 	private float curVertMoveSpeed = 0f;
+
+	void Start()
+	{
+		moveForward = true;
+	}
 
 	public void StartForwardMovement()
 	{
-		move = true;
 		animator.SetTrigger (ANIM_TRIGGER);
 	}
 
@@ -26,9 +30,11 @@ public class PlayerController : MonoBehaviour
 		
 	void Update () 
 	{
-		if (move) 
+		transform.position += Vector3.up * Input.GetAxis ("Vertical") * curVertMoveSpeed * Time.deltaTime;
+		
+		if (moveForward) 
 		{
-			transform.position += new Vector3 (horiMoveSpeed, Input.GetAxis ("Vertical") * curVertMoveSpeed) * Time.deltaTime;
+			transform.position += Vector3.right * horiMoveSpeed * Time.deltaTime;
 		}
 	}
 }

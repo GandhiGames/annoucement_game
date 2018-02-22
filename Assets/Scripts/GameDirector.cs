@@ -10,12 +10,11 @@ public class GameDirector : MonoBehaviour
 	public BackgroundMovement[] backgrounds;
 	public TrailRenderer playerTail;
 	public NPC[] npcs;
-	public GameObject speechBubble;
 	public GameObject level;
 
 	void Start()
 	{
-		textAnimator.AnimateText("Ok boys, we're going in! Activate thrusters", 0.05f, 1f);	
+		textAnimator.AnimateText("Ok boys, we're going in. Activate thrusters!");	
 	}
 
 	void OnEnable()
@@ -24,14 +23,9 @@ public class GameDirector : MonoBehaviour
 		cameraManager.onInitialMoveFinished += EnableLevel;
 	}
 
-	void OnDisable()
-	{
-		textAnimator.onTextAnimationFinished -= StartGame;
-		cameraManager.onInitialMoveFinished -= EnableLevel;
-	}
-
 	private void StartGame()
 	{
+		textAnimator.onTextAnimationFinished -= StartGame;
 		textAnimator.Hide ();
 
 		cameraManager.StartFollow ();
@@ -44,13 +38,11 @@ public class GameDirector : MonoBehaviour
 	{
 		yield return new WaitForSeconds (secsDelay);
 
-		cameraManager.MoveToInitialStart ();
+		cameraManager.MoveToInitialStart (0.8f);
 	}
 
 	private void EnableMovement()
-	{
-		speechBubble.SetActive (false);
-		
+	{		
 		ActivateThrusters ();
 
 		playerController.StartForwardMovement ();
@@ -68,6 +60,8 @@ public class GameDirector : MonoBehaviour
 
 	private void EnableLevel()
 	{
+		cameraManager.onInitialMoveFinished -= EnableLevel;
+
 		playerController.StartVerticalMovement ();
 
 		LoadLevel ();
@@ -85,8 +79,8 @@ public class GameDirector : MonoBehaviour
 
 	private void LoadLevel()
 	{
-		level.transform.position = new Vector3 (playerController.transform.position.x + 100, 0f);
-		level.gameObject.SetActive (true);
+		//level.transform.position = new Vector3 (playerController.transform.position.x - 50, 0f);
+		//level.gameObject.SetActive (true);
 	}
 
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 263f9cf121934482eb247b52a212faa8
-timeCreated: 1518818324
+guid: 5a031b92e82bd4011b5e747d9acedbe5
+timeCreated: 1519311839
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -66,32 +66,12 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-  - buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
     physicsShape: []
-  spritePackingTag: Background
+  spritePackingTag: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

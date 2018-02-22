@@ -16,19 +16,21 @@ public class TextAnimater : MonoBehaviour
 		animText = GetComponent<Text> ();
 	}
 		
-	public void AnimateText(string text, float secsBetweenChar, float secsEndDelay)
+	public void AnimateText(string text, float secsBetweenChar = 0.05f, float secsEndDelay = 1f)
 	{
 		StartCoroutine (_AnimateText (text, secsBetweenChar, secsEndDelay));
 	}
 
 	public void Show()
 	{
-		animText.enabled = true;
+		transform.parent.gameObject.SetActive (true);
+		//animText.enabled = true;
 	}
 
 	public void Hide()
 	{
-		animText.enabled = false;
+		transform.parent.gameObject.SetActive (false);
+		//animText.enabled = false;
 	}
 
 	private IEnumerator _AnimateText(string toDisplay, float secsBetweenChar, float secEndDelay)

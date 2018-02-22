@@ -15,11 +15,11 @@ public class NPC : MonoBehaviour
 	void Start () 
 	{
 		trail.enabled = false;
+		moving = true;
 	}
 
 	public void StartMovement()
 	{
-		moving = true;
 		animator.SetTrigger (ANIM_TRIGGER);
 	}
 	
