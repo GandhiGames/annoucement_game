@@ -21,6 +21,11 @@ public class TextAnimater : MonoBehaviour
 		StartCoroutine (_AnimateText (text, secsBetweenChar, secsEndDelay));
 	}
 
+	public bool IsVisible()
+	{
+		return transform.parent.gameObject.activeSelf;
+	}
+
 	public void Show()
 	{
 		transform.parent.gameObject.SetActive (true);

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MoveDirection { None, Up, Down };
+
 public class Egg : MonoBehaviour 
 {
 	public Transform NPCs;
@@ -24,8 +26,8 @@ public class Egg : MonoBehaviour
 
 	private bool playerFound = false;
 	private bool defeated = false;
+	private Collider2D collider2d;
 
-	private enum MoveDirection { None, Up, Down };
 	private Dictionary<MoveDirection, Vector3> moveDirections = new Dictionary<MoveDirection, Vector3> 
 	{	
 		{ MoveDirection.None, Vector3.zero },
@@ -34,6 +36,16 @@ public class Egg : MonoBehaviour
 	};
 
 	private MoveDirection curDirection = MoveDirection.Up;
+
+	void Awake()
+	{
+		collider2d = GetComponent<Collider2D> ();
+	}
+
+	void Start()
+	{
+		collider2d.enabled = false;
+	}
 
 	public void DoDamage()
 	{
@@ -54,6 +66,9 @@ public class Egg : MonoBehaviour
 			text.onTextAnimationFinished += StartBoss;
 			text.Show ();
 			text.AnimateText ("This is what we've been training for. Full speed ahead!");
+			gun.StopShooting ();
+			gun.RemoveProjectiles ();
+			collider2d.enabled = true;
 		}	
 
 		if (playerFound) 

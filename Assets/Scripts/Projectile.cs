@@ -6,35 +6,62 @@ public class Projectile : MonoBehaviour
 {
 	public Rigidbody2D rigidbody2d;
 	public float maxTimeAlive = 20f;
-
+	public float maxDistFromPlayer = 5f;
 	private float currentTimeAlive = 0f;
+	private Gun owner;
+	private bool shouldUpdate = false;
 
 	void OnEnable()
 	{
 		currentTimeAlive = 0f;
 	}
 
+	public void Remove()
+	{
+		owner.RemoveProjectile (this);
+		Destroy (gameObject);
+	}
+
 	void Update()
 	{
-		currentTimeAlive += Time.deltaTime;
-		if (currentTimeAlive >= maxTimeAlive) 
+		if (shouldUpdate) 
 		{
-			Destroy (gameObject);
+			currentTimeAlive += Time.deltaTime;
+			if (currentTimeAlive >= maxTimeAlive) 
+			{
+				Remove ();
+				
+			}
+			else if (Mathf.Abs (owner.transform.position.x - transform.position.x) > maxDistFromPlayer) 
+			{
+				Remove ();
+			}
 		}
 	}
 
-	public void Initialise(float speed)
+	void OnBecameInvisible()
 	{
+		Remove ();
+	}
+
+	public void Initialise(Gun owner, float speed)
+	{
+		this.owner = owner;
 		rigidbody2d.velocity = Vector2.right * speed;
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.CompareTag ("Egg")) 
+		if (other.CompareTag ("Enemy")) 
+		{
+			other.GetComponent<Enemy> ().OnDeath ();
+		}
+		else if (other.CompareTag ("Egg")) 
 		{
 			Egg egg = other.GetComponent<Egg> ();
 			egg.DoDamage ();
 			Destroy (gameObject);
 		}
+		
 	}
 }

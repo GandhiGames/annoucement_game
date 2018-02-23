@@ -11,23 +11,41 @@ public class GameDirector : MonoBehaviour
 	public TrailRenderer playerTail;
 	public NPC[] npcs;
 	public GameObject level;
+	public Gun playerShoot;
 
-	void Start()
+	IEnumerator Start()
 	{
+		yield return new WaitForSeconds (1f);
+		//StartGame();
+	}
+
+
+	public void StartGame()
+	{
+
+		foreach (var n in npcs) 
+		{
+			if (n && n.gameObject.activeInHierarchy) 
+			{
+				n.SetMovement (true);
+			}
+		}
+
+		playerController.SetMovement (true);
+
+		cameraManager.StartFollow ();
+		
+		textAnimator.onTextAnimationFinished += _StartGame;
+		textAnimator.Show ();
 		textAnimator.AnimateText("Ok boys, we're going in. Activate thrusters!");	
 	}
 
-	void OnEnable()
-	{
-		textAnimator.onTextAnimationFinished += StartGame;
-		cameraManager.onInitialMoveFinished += EnableLevel;
-	}
-
-	private void StartGame()
+	private void _StartGame()
 	{
 		textAnimator.onTextAnimationFinished -= StartGame;
 		textAnimator.Hide ();
 
+		cameraManager.onInitialMoveFinished += EnableLevel;
 		cameraManager.StartFollow ();
 		EnableMovement ();
 
@@ -49,13 +67,17 @@ public class GameDirector : MonoBehaviour
 
 		foreach (var n in npcs) 
 		{
-			n.StartMovement ();
+			if (n && n.gameObject.activeInHierarchy) 
+			{
+				n.StartMovement ();
+			}
 		}
 
 		foreach (var b in backgrounds) 
 		{
 			b.StartMovement ();
 		}
+			
 	}
 
 	private void EnableLevel()
@@ -65,6 +87,8 @@ public class GameDirector : MonoBehaviour
 		playerController.StartVerticalMovement ();
 
 		LoadLevel ();
+
+		playerShoot.BeginShooting ();
 	}
 
 	private void ActivateThrusters()
@@ -73,7 +97,10 @@ public class GameDirector : MonoBehaviour
 
 		foreach (var n in npcs) 
 		{
-			n.trail.enabled = true;
+			if (n && n.gameObject.activeInHierarchy) 
+			{
+				n.trail.enabled = true;
+			}
 		}
 	}
 

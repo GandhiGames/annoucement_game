@@ -14,7 +14,7 @@ public class CameraManager : MonoBehaviour
 
 	void Start()
 	{
-		shouldFollow = true;
+		shouldFollow = false;
 	}
 
 	public void MoveToInitialStart(float secEndDelay = 0f)
@@ -27,6 +27,11 @@ public class CameraManager : MonoBehaviour
 		shouldFollow = true;
 	}
 
+	public void StopFollow()
+	{
+		shouldFollow = false;
+	}
+
 	private IEnumerator _MoveToInitialStart(float secEndDelay)
 	{
 		if (target) 
@@ -34,6 +39,13 @@ public class CameraManager : MonoBehaviour
 			while(Camera.main.WorldToScreenPoint (target.transform.position).x  > Screen.width * 0.3f)
 			{
 				transform.position += Vector3.right * (target.horiMoveSpeed + initialMoveSpeed) * Time.smoothDeltaTime;	
+				yield return null;
+			}
+
+
+			while(Camera.main.WorldToScreenPoint (target.transform.position).x  < Screen.width * 0.3f)
+			{
+				transform.position -= Vector3.right * (initialMoveSpeed * 0.2f) * Time.smoothDeltaTime;	
 				yield return null;
 			}
 

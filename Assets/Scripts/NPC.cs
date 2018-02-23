@@ -15,12 +15,17 @@ public class NPC : MonoBehaviour
 	void Start () 
 	{
 		trail.enabled = false;
-		moving = true;
+		moving = false;
 	}
 
 	public void StartMovement()
 	{
 		animator.SetTrigger (ANIM_TRIGGER);
+	}
+
+	public void SetMovement(bool moving)
+	{
+		this.moving = moving;
 	}
 	
 	// Update is called once per frame

@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 	public float vertMoveSpeed = 5.0f;
 	public float horiMoveSpeed = 5.0f;
 	public Animator animator;
+	public TextAnimater textAnimator;
 
 	private static readonly int ANIM_TRIGGER = Animator.StringToHash("UpDown");
 	private bool moveForward = false;
@@ -14,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
 	{
-		moveForward = true;
+		moveForward = false;
 	}
 
 	public void StartForwardMovement()
@@ -27,6 +28,12 @@ public class PlayerController : MonoBehaviour
 		curVertMoveSpeed = vertMoveSpeed;
 		animator.SetTrigger (ANIM_TRIGGER);
 	}
+
+	public void SetMovement(bool move)
+	{
+		moveForward = move;
+	}
+
 		
 	void Update () 
 	{

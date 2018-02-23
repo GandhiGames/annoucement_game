@@ -13,6 +13,11 @@ public class BackgroundMovement : MonoBehaviour
 		shouldMove = true;
 	}
 
+	public void StopMovement()
+	{
+		shouldMove = false;
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
