@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
 	public float vertMoveSpeed = 5.0f;
 	public float horiMoveSpeed = 5.0f;
+	public float origHoriMoveSpeed;
 	public Animator animator;
 	public TextAnimater textAnimator;
 
@@ -13,9 +14,14 @@ public class PlayerController : MonoBehaviour
 	private bool moveForward = false;
 	private float curVertMoveSpeed = 0f;
 
-	void Start()
+	void Awake()
 	{
 		moveForward = false;
+	}
+
+	void Start()
+	{
+		origHoriMoveSpeed = horiMoveSpeed;
 	}
 
 	public void StartForwardMovement()

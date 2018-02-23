@@ -8,6 +8,7 @@ TagManager:
   - Egg
   - Enemy
   - TextTrigger
+  - Projectile
   layers:
   - Default
   - TransparentFX

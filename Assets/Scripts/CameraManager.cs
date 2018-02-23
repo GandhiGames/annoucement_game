@@ -7,10 +7,20 @@ public class CameraManager : MonoBehaviour
 {
 	public PlayerController target;
 	public float initialMoveSpeed = 1.0f;
-
+	public Transform zoomTarget;
 	public Action onInitialMoveFinished;
+	public Action onZoomFinished;
+	public float zoomSpeed = 1f;
+	public float zoomTargetSize = 0.2f;
+
+	public Camera thisCamera;
 
 	private bool shouldFollow = false;
+
+	void Awake()
+	{
+		thisCamera = GetComponent<Camera> ();
+	}
 
 	void Start()
 	{
@@ -22,6 +32,11 @@ public class CameraManager : MonoBehaviour
 		StartCoroutine (_MoveToInitialStart (secEndDelay));
 	}
 
+	public void Zoom(float secEndDelay = 0f)
+	{
+		StartCoroutine (_Zoom (secEndDelay));
+	}
+
 	public void StartFollow()
 	{
 		shouldFollow = true;
@@ -31,6 +46,27 @@ public class CameraManager : MonoBehaviour
 	{
 		shouldFollow = false;
 	}
+
+	private IEnumerator _Zoom(float secEndDelay)
+	{
+		//transform.position = new Vector3 (zoomTarget.position.x, zoomTarget.position.y, transform.position.z);
+
+		while (thisCamera.orthographicSize > zoomTargetSize) 
+		{
+			thisCamera.orthographicSize -= zoomSpeed * Time.deltaTime;
+			yield return null;
+
+		}
+
+		yield return new WaitForSeconds (secEndDelay);
+
+		if (onZoomFinished != null) 
+		{
+			onZoomFinished ();
+		}
+	}
+
+
 
 	private IEnumerator _MoveToInitialStart(float secEndDelay)
 	{

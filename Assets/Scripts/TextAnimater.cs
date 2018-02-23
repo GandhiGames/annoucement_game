@@ -23,7 +23,7 @@ public class TextAnimater : MonoBehaviour
 
 	public bool IsVisible()
 	{
-		return transform.parent.gameObject.activeSelf;
+		return transform.parent.gameObject.activeSelf && transform.parent.gameObject.activeInHierarchy;
 	}
 
 	public void Show()

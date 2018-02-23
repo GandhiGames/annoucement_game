@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
 	public float minParticleTimeAlive = 1f;
 	public float maxParticleTimeAlive = 5;
 
+	public float rotateSpeed = 100f;
 
 	public MoveDirection curDirection = MoveDirection.Up;
 
@@ -90,6 +91,7 @@ public class Enemy : MonoBehaviour
 
 	public void OnDeath()
 	{
+		shouldUpdate = false;
 		animator.SetTrigger (DAMAGE_HASH);
 	}
 
@@ -105,6 +107,8 @@ public class Enemy : MonoBehaviour
 		{
 			transform.position += moveDirections [curDirection] * vertMoveSpeed * Time.deltaTime;
 			transform.position += Vector3.right * horiMoveSpeed * Time.deltaTime;
+
+			transform.Rotate (Vector3.forward * rotateSpeed * Time.deltaTime);
 		}
 	}
 

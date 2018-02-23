@@ -7,6 +7,7 @@ public enum MoveDirection { None, Up, Down };
 
 public class Egg : MonoBehaviour 
 {
+	public GameDirector director;
 	public Transform NPCs;
 	public TextAnimater text;
 	public PlayerController playerController;
@@ -20,12 +21,14 @@ public class Egg : MonoBehaviour
 	public Gun gun;
 	public int health = 10;
 	public float playerSpeedIncrease = 4f;
+	public float rotateSpeed = 40f;
 
 	private static readonly int DAMAGE_HASH = Animator.StringToHash("Damage");
 	private static readonly int DEFEATED_HASH = Animator.StringToHash ("Defeated");
 
 	private bool playerFound = false;
 	private bool defeated = false;
+	private bool playerReached = false;
 	private Collider2D collider2d;
 
 	private Dictionary<MoveDirection, Vector3> moveDirections = new Dictionary<MoveDirection, Vector3> 
@@ -59,6 +62,11 @@ public class Egg : MonoBehaviour
 		
 	void Update () 
 	{
+		if (playerReached) 
+		{
+			return;
+		}
+		
 		if (!playerFound && Mathf.Abs(playerController.transform.position.x - transform.position.x) < distanceFromPlayer) 
 		{
 			playerFound = true;
@@ -75,12 +83,14 @@ public class Egg : MonoBehaviour
 		{
 			transform.position += Vector3.right * forwardMoveSpeed * Time.deltaTime;
 			transform.position += moveDirections [curDirection] * vertMoveSpeed * Time.deltaTime;
+			transform.Rotate (Vector3.forward * rotateSpeed * Time.deltaTime);
 
 			if (defeated) 
 			{
 				if (Mathf.Abs (playerController.transform.position.x - transform.position.x) < winDistance) 
 				{
-					print ("Won");
+					playerReached = true;
+					director.LoadEndScene ();
 				}
 
 				if (Mathf.Abs (playerController.transform.position.y - transform.position.y) < 0.2f) 
@@ -126,10 +136,26 @@ public class Egg : MonoBehaviour
 
 	private void OnDefeated()
 	{
+		if (defeated) 
+		{
+			return;
+		}
+
 		gun.StopShooting ();
 		playerController.horiMoveSpeed += playerSpeedIncrease;
+		playerController.vertMoveSpeed = 0f;
 		shieldAnimator.SetTrigger (DEFEATED_HASH);
 		defeated = true;
+
+		text.onTextAnimationFinished += HideText;
+		text.Show ();
+		text.AnimateText ("We did it!");
+	}
+
+	private void HideText()
+	{
+		text.onTextAnimationFinished -= HideText;
+		text.Hide ();
 	}
 
 	void OnTriggerEnter2D(Collider2D other)

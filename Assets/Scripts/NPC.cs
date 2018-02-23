@@ -12,7 +12,7 @@ public class NPC : MonoBehaviour
 	private bool moving = false;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
 		trail.enabled = false;
 		moving = false;
