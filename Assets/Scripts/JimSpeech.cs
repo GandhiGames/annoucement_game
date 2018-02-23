@@ -23,6 +23,6 @@ public class JimSpeech : MonoBehaviour
 
 	private void DoWoof()
 	{
-		textAnimator.AnimateText (speech);
+		textAnimator.AnimateText (speech, 0.05f, 0.2f);
 	}
 }

@@ -7,8 +7,9 @@ public class Projectile : MonoBehaviour
 	public Rigidbody2D rigidbody2d;
 	public float maxTimeAlive = 20f;
 	public float maxDistFromPlayer = 5f;
+	public Gun owner;
+
 	private float currentTimeAlive = 0f;
-	private Gun owner;
 	private bool shouldUpdate = false;
 
 	void OnEnable()

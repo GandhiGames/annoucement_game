@@ -19,26 +19,30 @@ public class GameDirector : MonoBehaviour
 	public GameObject endFade;
 	public GameObject endScene;
 	public Egg egg;
+	public TitleAnimation title;
 
 	private static readonly int FADE_HASH = Animator.StringToHash ("Fade");
 
 	private float cameraOrigZoom;
 	private Vector3 cameraOrigPos;
 
-	IEnumerator Start()
+	void Start()
 	{
 		gameScene.SetActive (false);
 		endScene.SetActive (false);
 		preScene.SetActive (true);
-		yield return new WaitForSeconds (10f);
+	}
 
+	public void LoadGameScene()
+	{
+		title.Show (0f);
 		cameraOrigZoom = cameraManager.thisCamera.orthographicSize;
 		cameraOrigPos = cameraManager.transform.position;
 		cameraManager.onZoomFinished += Fade;
 		cameraManager.Zoom (.2f);
 		bobUpDown.Stop ();
 	}
-
+		
 	public void LoadEndScene()
 	{
 		playerController.horiMoveSpeed = 0f;
@@ -97,9 +101,17 @@ public class GameDirector : MonoBehaviour
 
 		cameraManager.StartFollow ();
 		
-		textAnimator.onTextAnimationFinished += _StartGame;
+		textAnimator.onTextAnimationFinished += NextText;
 		textAnimator.Show ();
-		textAnimator.AnimateText("Ok boys, we're going in. Activate thrusters!");	
+		textAnimator.AnimateText("Ok boys, this is it. Give it your all.");	
+	}
+
+	private void NextText()
+	{
+		textAnimator.onTextAnimationFinished -= NextText;
+		textAnimator.onTextAnimationFinished += _StartGame;
+		textAnimator.AnimateText("Activate thrusters! We're going in.");	
+
 	}
 
 	private void _StartGame()

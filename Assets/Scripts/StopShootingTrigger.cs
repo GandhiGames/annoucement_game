@@ -18,6 +18,13 @@ public class StopShootingTrigger : MonoBehaviour
 
 			if (proj) 
 			{
+				Gun owner = proj.owner;
+
+				if (owner) 
+				{
+					owner.StopShooting ();
+				}
+
 				proj.Remove ();
 			}
 		}
