@@ -20,6 +20,9 @@ public class GameDirector : MonoBehaviour
 	public GameObject endScene;
 	public Egg egg;
 	public TitleAnimation title;
+	public BackgroundAudio backAudio;
+
+	public float fadeSecsBetweenMenuAndGame = 1f;
 
 	private static readonly int FADE_HASH = Animator.StringToHash ("Fade");
 
@@ -41,6 +44,7 @@ public class GameDirector : MonoBehaviour
 		cameraManager.onZoomFinished += Fade;
 		cameraManager.Zoom (.2f);
 		bobUpDown.Stop ();
+		backAudio.FadeFromToAudioSources (0, 1, fadeSecsBetweenMenuAndGame, 0.1f);
 	}
 		
 	public void LoadEndScene()
@@ -99,6 +103,12 @@ public class GameDirector : MonoBehaviour
 
 		playerController.SetMovement (true);
 
+
+		foreach (var b in backgrounds) 
+		{
+			b.StartMovement ();
+		}
+
 		cameraManager.StartFollow ();
 		
 		textAnimator.onTextAnimationFinished += NextText;
@@ -147,10 +157,6 @@ public class GameDirector : MonoBehaviour
 			}
 		}
 
-		foreach (var b in backgrounds) 
-		{
-			b.StartMovement ();
-		}
 			
 	}
 

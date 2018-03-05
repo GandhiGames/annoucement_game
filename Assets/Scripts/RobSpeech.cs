@@ -14,7 +14,7 @@ public class RobSpeech : MonoBehaviour
 		yield return new WaitForSeconds (initialWait);
 
 		textAnimator.Show ();
-		textAnimator.AnimateText (speech);
+		textAnimator.AnimateText (speech, 0.02f, 1.2f);
 		textAnimator.onTextAnimationFinished += OnSpeechFinished;
 
 		yield return new WaitForSeconds (0.8f);

@@ -8,7 +8,11 @@ using System;
 public class TextAnimater : MonoBehaviour 
 {
 	public Action onTextAnimationFinished;
-	
+
+	public BackgroundAudio audioPlayer;
+
+	public AudioClip onCharClip;
+
 	private Text animText;
 
 	void Awake()
@@ -44,6 +48,11 @@ public class TextAnimater : MonoBehaviour
 		animText.text = "";
 		while( i < toDisplay.Length )
 		{
+			if (onCharClip) 
+			{
+				audioPlayer.PlayOneShot (onCharClip);
+			}
+
 			animText.text += toDisplay[i++];
 			yield return new WaitForSeconds(secsBetweenChar);
 		}

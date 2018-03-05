@@ -44,10 +44,21 @@ public class PlayerController : MonoBehaviour
 	void Update () 
 	{
 		transform.position += Vector3.up * Input.GetAxis ("Vertical") * curVertMoveSpeed * Time.deltaTime;
-		
+
+		if (Input.touches.Length > 0) 
+		{
+			Touch t = Input.GetTouch (0);
+
+			int move = (t.position.y > Screen.height * 0.5f) ? 1 : -1;
+
+			transform.position += Vector3.up * move * curVertMoveSpeed * Time.deltaTime;
+		}
+
 		if (moveForward) 
 		{
 			transform.position += Vector3.right * horiMoveSpeed * Time.deltaTime;
 		}
+
+
 	}
 }

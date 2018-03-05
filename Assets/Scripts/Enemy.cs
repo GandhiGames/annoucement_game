@@ -22,6 +22,10 @@ public class Enemy : MonoBehaviour
 
 	public MoveDirection curDirection = MoveDirection.Up;
 
+	public AudioClip[] audioOnDeath;
+
+	public BackgroundAudio audioPlayer;
+
 	private static readonly int DAMAGE_HASH = Animator.StringToHash("Death");
 	private static Transform player;
 	private Collider2D collider2d;
@@ -91,6 +95,7 @@ public class Enemy : MonoBehaviour
 
 	public void OnDeath()
 	{
+		audioPlayer.PlayOneShot (audioOnDeath [UnityEngine.Random.Range (0, audioOnDeath.Length)]);
 		shouldUpdate = false;
 		animator.SetTrigger (DAMAGE_HASH);
 	}

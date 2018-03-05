@@ -1,0 +1,13 @@
+{
+"companyName": "that games guy",
+"productName": "announcement_game",
+"dataUrl": "announcement_game.data.unityweb",
+"asmCodeUrl": "announcement_game.asm.code.unityweb",
+"asmMemoryUrl": "announcement_game.asm.memory.unityweb",
+"asmFrameworkUrl": "announcement_game.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}

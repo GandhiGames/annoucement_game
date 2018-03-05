@@ -6,6 +6,8 @@ public class StopShootingTrigger : MonoBehaviour
 {
 	public Gun playerGun;
 
+	private bool ownerStopped = false;
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.CompareTag ("Player")) 
@@ -18,11 +20,16 @@ public class StopShootingTrigger : MonoBehaviour
 
 			if (proj) 
 			{
-				Gun owner = proj.owner;
-
-				if (owner) 
+				if (!ownerStopped) 
 				{
-					owner.StopShooting ();
+					ownerStopped = true;
+
+					Gun owner = proj.owner;
+
+					if (owner && Mathf.Abs (owner.transform.position.x - transform.position.x) < 0.5f) 
+					{
+						owner.StopShooting ();
+					}
 				}
 
 				proj.Remove ();

@@ -8,6 +8,8 @@ public class Gun : MonoBehaviour
 	public float secsBetweenBullets = 0.3f;
 	public float projectileSpeed = 10f;
 	public int preload = 50;
+	public AudioClip[] shootAudioClips;
+	public BackgroundAudio audioPlayer;
 	private bool shooting = false;
 
 	private List<Projectile> projectiles = new List<Projectile>();
@@ -33,6 +35,13 @@ public class Gun : MonoBehaviour
 	public void StopShooting()
 	{
 		shooting = false;
+	}
+
+	public void DestroyGun()
+	{
+		shooting = false;
+		RemoveProjectiles ();
+		Destroy (gameObject);
 	}
 
 	public void RemoveProjectiles()
@@ -64,12 +73,14 @@ public class Gun : MonoBehaviour
 			else 
 			{
 				proj = (Projectile)Instantiate (bulletPrefab);
-				Debug.Log ("More projs needed");
 			}
+
+			audioPlayer.PlayOneShot(shootAudioClips[UnityEngine.Random.Range(0, shootAudioClips.Length)]);
 
 			proj.transform.position = transform.position;
 			proj.Initialise (this, projectileSpeed);
 			projectiles.Add (proj);
+
 			yield return new WaitForSeconds (secsBetweenBullets);
 		}
 	}

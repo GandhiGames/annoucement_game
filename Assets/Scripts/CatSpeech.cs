@@ -25,7 +25,7 @@ public class CatSpeech : MonoBehaviour
 
 		if (speechIndex != 0) 
 		{
-			text.AnimateText (speech [speechIndex], 0.04f, 0.8f);
+			text.AnimateText (speech [speechIndex], 0.04f, 1.2f);
 		} 
 		else 
 		{

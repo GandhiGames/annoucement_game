@@ -6,7 +6,7 @@ public class BackgroundMovement : MonoBehaviour
 {
 	public float moveSpeed = 1.0f;
 
-	private bool shouldMove = false;
+	public bool shouldMove = false;
 
 	public void StartMovement()
 	{

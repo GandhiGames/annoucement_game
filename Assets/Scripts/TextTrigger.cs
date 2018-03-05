@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TextTrigger : MonoBehaviour 
 {
-	public string text = "We're nearly there. Keep pushing forward.";
+	public string text = "We're nearly there.";
 
 	private TextAnimater textAnim;
 	

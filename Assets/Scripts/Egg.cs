@@ -22,6 +22,8 @@ public class Egg : MonoBehaviour
 	public int health = 10;
 	public float playerSpeedIncrease = 4f;
 	public float rotateSpeed = 40f;
+	public BackgroundAudio gameAudio;
+	public AudioClip[] onDamageAudioClips;
 
 	private static readonly int DAMAGE_HASH = Animator.StringToHash("Damage");
 	private static readonly int DEFEATED_HASH = Animator.StringToHash ("Defeated");
@@ -29,6 +31,7 @@ public class Egg : MonoBehaviour
 	private bool playerFound = false;
 	private bool defeated = false;
 	private bool playerReached = false;
+	private bool shieldsDown = false;
 	private Collider2D collider2d;
 
 	private Dictionary<MoveDirection, Vector3> moveDirections = new Dictionary<MoveDirection, Vector3> 
@@ -58,6 +61,11 @@ public class Egg : MonoBehaviour
 		{
 			OnDefeated ();	
 		}
+
+		if (onDamageAudioClips != null && onDamageAudioClips.Length > 0) 
+		{
+			gameAudio.PlayOneShot (onDamageAudioClips[UnityEngine.Random.Range(0, onDamageAudioClips.Length)]);
+		}
 	}
 		
 	void Update () 
@@ -67,7 +75,7 @@ public class Egg : MonoBehaviour
 			return;
 		}
 		
-		if (!playerFound && Mathf.Abs(playerController.transform.position.x - transform.position.x) < distanceFromPlayer) 
+		if (!shieldsDown && !playerFound && Mathf.Abs(playerController.transform.position.x - transform.position.x) < distanceFromPlayer) 
 		{
 			playerFound = true;
 
@@ -130,26 +138,39 @@ public class Egg : MonoBehaviour
 			yield return null;
 		}
 
-		gun.BeginShooting ();
+		if (!shieldsDown) 
+		{
+			gun.BeginShooting ();
+		}
 	}
 		
 
 	private void OnDefeated()
 	{
-		if (defeated) 
+		if (defeated || shieldsDown) 
 		{
 			return;
 		}
 
-		gun.StopShooting ();
-		playerController.horiMoveSpeed += playerSpeedIncrease;
-		playerController.vertMoveSpeed = 0f;
+		gameAudio.SetEffectsPlayEnabled (false);
+		gameAudio.Fade (BackgroundAudio.FadeState.Out, 1, 7f);
 		shieldAnimator.SetTrigger (DEFEATED_HASH);
+		shieldsDown = true;
+		gun.StopShooting ();
+		text.onTextAnimationFinished += PenetrateEgg;
+		text.Show ();
+		text.AnimateText ("The shields are down, we did it!");
+	}
+
+	private void PenetrateEgg()
+	{
+		text.onTextAnimationFinished -= PenetrateEgg;
+		text.Hide ();
+
 		defeated = true;
 
-		text.onTextAnimationFinished += HideText;
-		text.Show ();
-		text.AnimateText ("We did it!");
+		playerController.horiMoveSpeed += playerSpeedIncrease;
+		playerController.vertMoveSpeed = 0f;
 	}
 
 	private void HideText()
